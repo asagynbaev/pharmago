@@ -150,7 +150,7 @@ useSeoMeta({ title: 'Личный кабинет' })
 }
 
 .tile__hint {
-  font-size: 13px;
+  font-size: 15px;
   opacity: 0.7;
   margin-top: auto;
 }
@@ -173,7 +173,7 @@ useSeoMeta({ title: 'Личный кабинет' })
 }
 
 .card__more {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -199,7 +199,7 @@ useSeoMeta({ title: 'Личный кабинет' })
   flex-direction: column;
   gap: 3px;
   min-width: 0;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .row__main b {

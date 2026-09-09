@@ -125,6 +125,7 @@ const year = new Date().getFullYear()
 .ftr__brand {
   display: flex;
   align-items: center;
+  min-height: 48px;
   gap: 10px;
   color: #fff;
 }
@@ -144,7 +145,7 @@ const year = new Date().getFullYear()
 }
 
 .ftr__tagline {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.55;
   max-width: 320px;
 }
@@ -156,12 +157,15 @@ const year = new Date().getFullYear()
 }
 
 .ftr__store {
-  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 18px;
   border-radius: 12px;
   background: rgb(255 255 255 / 8%);
   color: #fff;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .ftr__store:hover {
@@ -172,20 +176,26 @@ const year = new Date().getFullYear()
 .ftr__col {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  font-size: 14px;
+  /* Отступ убран: его заменила высота самих ссылок. */
+  gap: 0;
+  font-size: 16px;
 }
 
 .ftr__title {
   color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 4px;
   font-weight: 700;
 }
 
-.ftr__link {
+/* Ссылки подвала — тоже цели для пальца, а не только для курсора. */
+.ftr__link,
+.ftr__phone {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--on-night);
 }
 
@@ -195,7 +205,8 @@ const year = new Date().getFullYear()
 
 .ftr__phone {
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 18px;
 }
 
 .ftr__phone:hover {
@@ -204,6 +215,7 @@ const year = new Date().getFullYear()
 
 .ftr__addr {
   line-height: 1.5;
+  padding: 8px 0;
 }
 
 .ftr__social {
@@ -214,11 +226,14 @@ const year = new Date().getFullYear()
 }
 
 .ftr__social a {
-  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 14px;
   border-radius: 8px;
   border: 1px solid rgb(255 255 255 / 14%);
   color: var(--on-night);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -234,7 +249,7 @@ const year = new Date().getFullYear()
   flex-wrap: wrap;
   padding-top: 24px;
   border-top: 1px solid rgb(255 255 255 / 10%);
-  font-size: 12px;
+  font-size: 14px;
   color: #6b7f92;
 }
 </style>

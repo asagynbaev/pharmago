@@ -153,7 +153,7 @@ useSeoMeta({ title: 'Мои заказы' })
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .order__head {
@@ -220,7 +220,7 @@ useSeoMeta({ title: 'Мои заказы' })
 
 .facts dt {
   color: var(--on-night-dim);
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 2px;
 }
 

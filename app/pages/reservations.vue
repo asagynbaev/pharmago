@@ -327,7 +327,7 @@ useSeoMeta({
 }
 
 .rcard__code {
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.06em;
   white-space: nowrap;
 }
@@ -337,7 +337,7 @@ useSeoMeta({
   flex-direction: column;
   gap: 5px;
   min-width: 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .rcard__title {
@@ -380,7 +380,7 @@ useSeoMeta({
 }
 
 .linklike {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 }
 

@@ -430,7 +430,7 @@ const fallbackNote = computed(() => {
   justify-content: center;
   gap: 12px;
   color: var(--ink-muted);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   background: #eaf2fb;
   z-index: 2;
@@ -473,7 +473,7 @@ const fallbackNote = computed(() => {
 }
 
 .pmap__offline span {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--ink-muted);
   line-height: 1.45;
 }

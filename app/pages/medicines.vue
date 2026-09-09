@@ -149,7 +149,7 @@ useSeoMeta({
       >
         <div class="mcard__top">
           <b class="mcard__name">{{ m.name }}</b>
-          <span v-if="m.prescription" class="tag tag--rx">Rx</span>
+          <span v-if="m.prescription" class="tag tag--rx">По рецепту</span>
         </div>
 
         <span class="mcard__sub">{{ m.substance }}</span>
@@ -228,7 +228,7 @@ useSeoMeta({
 }
 
 .chip--sm {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   padding: 7px 12px;
 }
@@ -270,12 +270,12 @@ useSeoMeta({
 }
 
 .mcard__sub {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--ink-muted);
 }
 
 .mcard__cat {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--on-night-dim);
 }
 
@@ -286,7 +286,7 @@ useSeoMeta({
   gap: 10px;
   margin-top: auto;
   padding-top: 12px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .mcard__price {
@@ -295,7 +295,7 @@ useSeoMeta({
 }
 
 .mcard__price--out {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--ink-muted);
   font-weight: 500;
 }

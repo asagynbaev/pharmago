@@ -178,7 +178,7 @@ useSeoMeta({
 .toc__link {
   padding: 11px 14px;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--ink);
 }
@@ -268,7 +268,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -289,7 +289,7 @@ useSeoMeta({
   padding: 20px;
   border-radius: var(--r-sm);
   border: 1px solid var(--line);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -310,7 +310,7 @@ useSeoMeta({
   grid-template-columns: 150px minmax(0, 1fr) 44px;
   gap: 12px;
   align-items: center;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .fresh__track {
@@ -330,7 +330,7 @@ useSeoMeta({
 }
 
 .fresh__cap {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--on-night-dim);
 }
 

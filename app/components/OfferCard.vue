@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { OfferView } from '#shared/types'
-import { formatDistance, formatFreshness, formatPrice } from '#shared/utils/catalog'
+import { formatDistance, formatPrice } from '#shared/utils/catalog'
 
 const props = withDefaults(
   defineProps<{
@@ -21,7 +21,7 @@ const emit = defineEmits<{
 
 const stockClass = computed(() => `tag--${props.offer.stock}`)
 
-/** На сколько это дороже самого дешёвого предложения. */
+/** Насколько дороже самого дешёвого предложения — словами, а не знаком «+». */
 const overpay = computed(() => {
   if (!props.bestPrice || props.offer.price <= props.bestPrice) return null
   return props.offer.price - props.bestPrice
@@ -31,12 +31,12 @@ const isBest = computed(
   () => props.bestPrice !== null && props.offer.price === props.bestPrice,
 )
 
-const freshness = computed(() => {
-  const minutes = Math.max(
-    1,
-    Math.round((Date.now() - new Date(props.offer.updatedAt).getTime()) / 60_000),
-  )
-  return formatFreshness(minutes)
+/** Режим работы одной понятной фразой, без сокращений вроде «24/7». */
+const hoursLabel = computed(() => {
+  const p = props.offer.pharmacy
+  if (p.is24h) return 'Работает круглосуточно'
+  const [opens, closes] = p.hours.split('–')
+  return p.isOpen ? `Открыто до ${closes}` : `Закрыто, откроется в ${opens}`
 })
 
 const mapsLink = computed(() => {
@@ -47,76 +47,64 @@ const mapsLink = computed(() => {
 
 <template>
   <article class="offer" :class="{ 'offer--hl': highlighted }">
-    <div class="offer__main">
-      <div class="offer__title">
-        <NuxtLink :to="`/map?pharmacy=${offer.pharmacy.id}`" class="offer__name">
-          {{ offer.pharmacy.chain }}
-        </NuxtLink>
-        <span class="tag" :class="stockClass">{{ offer.stockLabel }}</span>
-        <span v-if="offer.pharmacy.is24h" class="tag tag--night">24/7</span>
-        <span v-if="offer.pharmacy.delivery" class="tag">Доставка</span>
-        <span v-if="isBest" class="tag tag--in">Лучшая цена</span>
-      </div>
+    <div class="offer__head">
+      <h3 class="offer__name">{{ offer.pharmacy.chain }}</h3>
+      <span class="tag" :class="stockClass">{{ offer.stockLabel }}</span>
+      <span v-if="isBest" class="tag tag--in">Самая низкая цена</span>
+    </div>
 
-      <span class="offer__addr">
-        {{ offer.pharmacy.address }} · {{ offer.pharmacy.district }} ·
-        {{ formatDistance(offer.pharmacy.distance) }}
-      </span>
+    <p class="offer__where">
+      {{ offer.pharmacy.address }} · {{ formatDistance(offer.pharmacy.distance) }} от вас
+    </p>
 
-      <span class="offer__hours" :data-status="offer.pharmacy.status">
-        {{ offer.pharmacy.is24h ? 'Круглосуточно' : offer.pharmacy.isOpen
-          ? `Открыто до ${offer.pharmacy.hours.split('–')[1]}`
-          : `Закрыто · откроется в ${offer.pharmacy.hours.split('–')[0]}` }}
-        <span class="offer__fresh">· обновлено {{ freshness }}</span>
+    <p class="offer__hours" :data-status="offer.pharmacy.status">
+      {{ hoursLabel }}
+    </p>
+
+    <div class="offer__price">
+      <b class="num">{{ formatPrice(offer.price) }} сом</b>
+      <span v-if="overpay" class="offer__over">
+        дороже на {{ formatPrice(overpay) }} сом
       </span>
     </div>
 
-    <div class="offer__side">
-      <div class="offer__price">
-        <b class="num">{{ formatPrice(offer.price) }} сом</b>
-        <span v-if="overpay" class="offer__over">+{{ formatPrice(overpay) }} к лучшей</span>
-      </div>
-      <div class="offer__actions">
-        <a
-          class="btn btn--sm"
-          :href="mapsLink"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Маршрут</a>
-        <button
-          v-if="reservable && offer.pharmacy.delivery"
-          class="btn btn--sm"
-          type="button"
-          :disabled="offer.stock === 'out'"
-          @click="emit('order', offer)"
-        >
-          Доставка
-        </button>
-        <button
-          v-if="reservable"
-          class="btn btn--sm btn--blue"
-          type="button"
-          :disabled="offer.stock === 'out'"
-          @click="emit('reserve', offer)"
-        >
-          Забронировать
-        </button>
-      </div>
+    <button
+      v-if="reservable"
+      class="btn btn--primary offer__main-action"
+      type="button"
+      :disabled="offer.stock === 'out'"
+      @click="emit('reserve', offer)"
+    >
+      Забронировать
+    </button>
+
+    <div class="offer__extra">
+      <a class="offer__link" :href="mapsLink" target="_blank" rel="noopener noreferrer">
+        Как доехать
+      </a>
+      <button
+        v-if="reservable && offer.pharmacy.delivery"
+        class="offer__link"
+        type="button"
+        :disabled="offer.stock === 'out'"
+        @click="emit('order', offer)"
+      >
+        Привезти домой
+      </button>
     </div>
   </article>
 </template>
 
 <style scoped>
 .offer {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  min-width: 0;
-  gap: 10px 20px;
-  align-items: center;
   background: var(--surface);
   border-radius: var(--r-item);
-  padding: 18px 22px;
+  padding: 22px 24px;
   border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
   transition: box-shadow 0.15s var(--ease), border-color 0.15s var(--ease);
 }
 
@@ -128,37 +116,27 @@ const mapsLink = computed(() => {
   border-color: var(--green);
 }
 
-.offer__main {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 0;
-}
-
-.offer__title {
+.offer__head {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .offer__name {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--ink);
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  margin: 0;
 }
 
-.offer__name:hover {
-  color: var(--blue);
-}
-
-.offer__addr {
-  font-size: 14px;
+.offer__where {
+  font-size: var(--t-meta);
   color: var(--ink-muted);
 }
 
 .offer__hours {
-  font-size: 13px;
+  font-size: var(--t-meta);
+  font-weight: 600;
   color: var(--green-deep);
 }
 
@@ -170,66 +148,92 @@ const mapsLink = computed(() => {
   color: var(--ink-muted);
 }
 
-.offer__fresh {
-  color: var(--on-night-dim);
-}
-
-.offer__side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
-}
-
 .offer__price {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 6px;
 }
 
 .offer__price b {
-  font-size: 22px;
-  white-space: nowrap;
+  font-size: 30px;
+  line-height: 1.1;
 }
 
 .offer__over {
-  font-size: 12px;
+  font-size: var(--t-meta);
   color: var(--ink-muted);
-  white-space: nowrap;
 }
 
-.offer__actions {
+/* Одно очевидное действие на карточку — во всю ширину. */
+.offer__main-action {
+  width: 100%;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+/* Второстепенное — текстовыми ссылками, чтобы не спорить с главной кнопкой. */
+.offer__extra {
   display: flex;
-  gap: 6px;
+  gap: 22px;
   flex-wrap: wrap;
+  margin-top: 4px;
 }
 
-/* «Маршрут + Доставка + Забронировать» и цена в одну строку не влезают
-   уже на планшете, поэтому раскладываем их в столбец пораньше. */
-@media (width <= 720px) {
+.offer__link {
+  border: 0;
+  background: transparent;
+  padding: 10px 0;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: var(--t-meta);
+  font-weight: 600;
+  color: var(--blue);
+  text-align: left;
+}
+
+.offer__link:hover {
+  color: #0059c9;
+}
+
+.offer__link:disabled {
+  color: var(--ink-muted);
+  cursor: not-allowed;
+}
+
+/* На широком экране карточка разворачивается в две колонки. */
+@media (width >= 760px) {
   .offer {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(210px, auto);
+    column-gap: 28px;
+    align-items: start;
   }
 
-  .offer__side {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
+  .offer__head,
+  .offer__where,
+  .offer__hours {
+    grid-column: 1;
   }
 
-  /* Цена и переплата — одной строкой по краям карточки. */
   .offer__price {
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 10px;
+    grid-column: 2;
+    grid-row: 1 / 3;
+    justify-content: flex-end;
+    margin-top: 0;
   }
 
-  /* Кнопки делят ширину поровну и переносятся, если не помещаются. */
-  .offer__actions .btn {
-    flex: 1 1 auto;
+  .offer__main-action {
+    grid-column: 2;
+    grid-row: 3;
+    margin-top: 0;
+  }
+
+  .offer__extra {
+    grid-column: 1;
+    grid-row: 4;
+    margin-top: 8px;
   }
 }
 </style>

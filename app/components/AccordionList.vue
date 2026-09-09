@@ -98,7 +98,7 @@ const baseId = useId()
 }
 
 .acc--flush .acc__btn {
-  font-size: 14px;
+  font-size: 16px;
   padding: 14px 16px;
 }
 
@@ -125,6 +125,6 @@ const baseId = useId()
 
 .acc--flush .acc__panel p {
   padding: 0 16px 16px;
-  font-size: 14px;
+  font-size: 16px;
 }
 </style>

@@ -234,7 +234,7 @@ useHead({
                 Цены в {{ stats.count }}
                 {{ plural(stats.count, 'аптеке', 'аптеках', 'аптеках') }}
               </span>
-              <b class="num">медиана {{ formatPrice(stats.median) }} сом</b>
+              <b class="num">чаще всего {{ formatPrice(stats.median) }} сом</b>
             </div>
             <div class="chart__bars">
               <div v-for="(bar, i) in priceBars" :key="i" class="chart__col">
@@ -362,13 +362,17 @@ useHead({
 .crumbs {
   display: flex;
   gap: 8px;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--ink-muted);
   padding: 4px 8px;
   flex-wrap: wrap;
 }
 
+/* Хлебные крошки — тоже ссылки для пальца. */
 .crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--ink-muted);
 }
 
@@ -397,7 +401,7 @@ useHead({
   justify-content: center;
   gap: 14px;
   color: #3b5473;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   text-align: center;
   padding: 20px;
@@ -424,7 +428,7 @@ useHead({
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px 24px;
-  font-size: 14px;
+  font-size: 16px;
   margin: 0;
 }
 
@@ -456,7 +460,7 @@ useHead({
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .head__price b {
@@ -514,7 +518,7 @@ useHead({
 }
 
 .buy__note {
-  font-size: 12px;
+  font-size: 14px;
   margin-top: -10px;
 }
 
@@ -529,9 +533,10 @@ useHead({
 .seg__btn {
   border: 0;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
-  padding: 7px 14px;
+  min-height: 44px;
+  padding: 10px 18px;
   border-radius: var(--r-pill);
   background: transparent;
   color: var(--ink);
@@ -565,7 +570,7 @@ useHead({
 .chart__head {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 15px;
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -588,7 +593,7 @@ useHead({
 }
 
 .chart__value {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -600,7 +605,7 @@ useHead({
 .chart__scale {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 15px;
   color: var(--on-night-dim);
 }
 
@@ -618,7 +623,7 @@ useHead({
   border-radius: var(--r-sm);
   background: var(--bg);
   color: var(--ink);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .analog:hover {
@@ -653,7 +658,7 @@ useHead({
   background: var(--amber-soft);
   border-radius: var(--r-item);
   padding: 16px 18px;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.5;
   color: #6b5630;
 }
@@ -661,7 +666,7 @@ useHead({
 .aside__map {
   gap: 6px;
   color: var(--ink);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .aside__map:hover {

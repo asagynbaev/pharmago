@@ -378,7 +378,7 @@ useSeoMeta({
 }
 
 .side__geo-note {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .side__districts {
@@ -389,7 +389,7 @@ useSeoMeta({
 }
 
 .chip--sm {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   padding: 7px 12px;
 }
@@ -400,7 +400,7 @@ useSeoMeta({
   padding: 32px;
   text-align: center;
   color: var(--ink-muted);
-  font-size: 14px;
+  font-size: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -481,7 +481,7 @@ useSeoMeta({
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--green-deep);
   white-space: nowrap;
@@ -502,7 +502,7 @@ useSeoMeta({
 }
 
 .pcard__addr {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--ink-muted);
 }
 
@@ -549,7 +549,7 @@ useSeoMeta({
   flex-direction: column;
   gap: 4px;
   min-width: 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .detail__title {
@@ -564,7 +564,7 @@ useSeoMeta({
 }
 
 .detail__phone {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 }
 

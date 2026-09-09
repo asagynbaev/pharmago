@@ -123,6 +123,7 @@ const isActive = (to: string) =>
 .hdr__brand {
   display: flex;
   align-items: center;
+  min-height: 48px;
   gap: 10px;
   color: var(--ink);
 }
@@ -155,7 +156,7 @@ const isActive = (to: string) =>
 .hdr__link {
   padding: 8px 14px;
   border-radius: var(--r-pill);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--ink);
   white-space: nowrap;
@@ -186,7 +187,7 @@ const isActive = (to: string) =>
 
 .hdr__cta {
   padding: 11px 20px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .hdr__account {
@@ -212,7 +213,7 @@ const isActive = (to: string) =>
   color: #fff;
   display: grid;
   place-items: center;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   flex: none;
 }
@@ -371,8 +372,14 @@ const isActive = (to: string) =>
     display: block;
   }
 
+  /* Скрытая навигация выпадает из сетки целиком, поэтому колонок остаётся
+     две: иначе кнопки занимали бы среднюю и липли к логотипу. */
   .hdr {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr;
+  }
+
+  .hdr__side {
+    justify-self: end;
   }
 }
 

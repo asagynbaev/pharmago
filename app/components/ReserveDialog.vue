@@ -27,13 +27,15 @@ const result = ref<ReservationResult | null>(null)
 
 const dialog = useTemplateRef<HTMLElement>('dialog')
 
-// Каждое новое предложение открывает диалог с чистой формой.
+// Каждое новое предложение открывает диалог заново. Вошедшему подставляем
+// имя и телефон из профиля — вводить руками ничего не нужно.
 watch(() => props.offer, (offer) => {
-  if (offer) {
-    result.value = null
-    errorMessage.value = ''
-    pending.value = false
-  }
+  if (!offer) return
+  result.value = null
+  errorMessage.value = ''
+  pending.value = false
+  name.value = user.value?.name ?? ''
+  phone.value = user.value?.phone ?? ''
 })
 
 watch(() => props.offer, (offer) => {
@@ -48,6 +50,7 @@ onKeyStroke('Escape', () => { if (props.offer) emit('close') })
 
 const toast = useToast()
 const { add: rememberReservation } = useReservations()
+const { user, isAuthenticated } = useAuth()
 /** Меняется на каждой неудаче — перезапускает встряску формы. */
 const shakeKey = ref(0)
 
@@ -143,20 +146,28 @@ const leftLabel = computed(() => {
             </div>
 
             <form class="modal__form" @submit.prevent="submit">
-              <label class="modal__field">
-                <span>Имя</span>
-                <input v-model="name" class="field" required placeholder="Как к вам обращаться">
-              </label>
-              <label class="modal__field">
-                <span>Телефон</span>
-                <input
-                  v-model="phone"
-                  class="field"
-                  required
-                  type="tel"
-                  placeholder="+996 555 12-34-56"
-                >
-              </label>
+              <!-- Вошедшему поля не нужны: данные уже известны. -->
+              <p v-if="isAuthenticated && name && phone" class="modal__known">
+                Заберёт <b>{{ name }}</b>, телефон <b>{{ phone }}</b>
+                <NuxtLink to="/account/profile" class="modal__change">Изменить</NuxtLink>
+              </p>
+
+              <template v-else>
+                <label class="modal__field">
+                  <span>Имя</span>
+                  <input v-model="name" class="field" required placeholder="Как к вам обращаться">
+                </label>
+                <label class="modal__field">
+                  <span>Телефон</span>
+                  <input
+                    v-model="phone"
+                    class="field"
+                    required
+                    type="tel"
+                    placeholder="+996 555 12-34-56"
+                  >
+                </label>
+              </template>
 
               <p
                 v-if="errorMessage"
@@ -301,17 +312,31 @@ const leftLabel = computed(() => {
   gap: 12px;
 }
 
+.modal__known {
+  background: var(--bg);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  font-size: var(--t-meta);
+  line-height: 1.5;
+}
+
+.modal__change {
+  margin-left: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .modal__field {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--ink-muted);
 }
 
 .modal__note {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--ink-muted);
 }
@@ -348,7 +373,7 @@ const leftLabel = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.45;
   min-width: 0;
 }

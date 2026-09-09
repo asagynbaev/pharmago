@@ -90,7 +90,7 @@ useSeoMeta({ robots: 'noindex' })
 }
 
 .head__hint {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -115,7 +115,7 @@ useSeoMeta({ robots: 'noindex' })
 .side__link {
   padding: 12px 14px;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--ink);
 }

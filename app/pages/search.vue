@@ -72,27 +72,6 @@ const histogram = computed(() => {
   }))
 })
 
-const toggles = computed(() => [
-  {
-    key: 'stock',
-    label: 'Только в наличии',
-    on: onlyStock.value,
-    flip: () => patch({ stock: onlyStock.value ? 'false' : undefined }),
-  },
-  {
-    key: 'night',
-    label: 'Круглосуточные',
-    on: onlyNight.value,
-    flip: () => patch({ night: onlyNight.value ? undefined : 'true' }),
-  },
-  {
-    key: 'delivery',
-    label: 'С доставкой',
-    on: onlyDelivery.value,
-    flip: () => patch({ delivery: onlyDelivery.value ? undefined : 'true' }),
-  },
-])
-
 /** Сколько аптек каждой сети попало в выдачу. */
 const chainCounts = computed(() => {
   const counts = new Map<string, number>()
@@ -197,95 +176,117 @@ useSeoMeta({
 
     <div class="layout">
       <aside class="filters">
+        <!-- На виду только то, что нужно почти всем: как сортировать
+             и показывать ли аптеки, где лекарства сейчас нет. -->
         <div class="filters__group">
-          <h2 class="filters__title">Сортировка</h2>
-          <div class="seg">
+          <h2 class="filters__title">Что показать первым</h2>
+          <div class="pick">
             <button
-              class="seg__btn"
+              class="pick__btn"
               type="button"
-              :class="{ 'seg__btn--on': sort === 'price' }"
+              :class="{ 'pick__btn--on': sort === 'price' }"
               @click="patch({ sort: 'price' })"
             >
-              Дешевле
+              <b>Сначала дешёвые</b>
+              <span>покажем самую низкую цену</span>
             </button>
             <button
-              class="seg__btn"
+              class="pick__btn"
               type="button"
-              :class="{ 'seg__btn--on': sort === 'distance' }"
+              :class="{ 'pick__btn--on': sort === 'distance' }"
               @click="patch({ sort: 'distance' })"
             >
-              Ближе
-            </button>
-          </div>
-        </div>
-
-        <div v-if="stats" class="filters__group">
-          <h2 class="filters__title">Цены в городе</h2>
-          <div class="hist" aria-hidden="true">
-            <div
-              v-for="(bin, i) in histogram"
-              :key="i"
-              class="hist__bar"
-              :style="{ height: bin.height, background: bin.color }"
-            />
-          </div>
-          <div class="hist__scale">
-            <span class="num">{{ stats.min }} сом</span>
-            <b class="num">медиана {{ stats.median }}</b>
-            <span class="num">{{ stats.max }} сом</span>
-          </div>
-        </div>
-
-        <div class="filters__group">
-          <h2 class="filters__title">Наличие и режим</h2>
-          <div v-for="t in toggles" :key="t.key" class="toggle">
-            <span :id="`sw-${t.key}`">{{ t.label }}</span>
-            <button
-              class="pg-toggle pg-toggle--sm"
-              type="button"
-              role="switch"
-              :aria-checked="t.on"
-              :aria-labelledby="`sw-${t.key}`"
-              @click="t.flip()"
-            >
-              <i />
+              <b>Сначала близкие</b>
+              <span>покажем аптеки рядом с вами</span>
             </button>
           </div>
         </div>
 
         <div class="filters__group">
-          <h2 class="filters__title">Район</h2>
-          <div class="filters__chips">
-            <button
-              v-for="d in ['Все', ...(data?.districts ?? [])]"
-              :key="d"
-              class="chip chip--onbg chip--sm"
-              type="button"
-              :aria-pressed="district === d"
-              @click="patch({ district: d === 'Все' ? undefined : d })"
-            >
-              {{ d }}
-            </button>
-          </div>
-        </div>
-
-        <div v-if="chainCounts.length" class="filters__group">
-          <h2 class="filters__title">Сеть аптек</h2>
-          <div v-for="[chain, count] in chainCounts" :key="chain" class="filters__row">
-            <span>{{ chain }}</span>
-            <span class="muted num">{{ count }}</span>
-          </div>
+          <button
+            class="toggle"
+            type="button"
+            role="switch"
+            :aria-checked="onlyStock"
+            @click="patch({ stock: onlyStock ? 'false' : undefined })"
+          >
+            <span>Только там, где есть сейчас</span>
+            <span class="pg-toggle" aria-hidden="true"><i /></span>
+          </button>
         </div>
 
         <button
           v-if="locationStatus !== 'granted'"
-          class="btn btn--sm filters__geo"
+          class="btn filters__geo"
           type="button"
           @click="requestLocation"
         >
-          📍 Расстояния от меня
+          Аптеки рядом со мной
         </button>
         <span class="filters__note muted">{{ locationLabel }}</span>
+
+        <!-- Остальное убрано под спойлер: большинству оно не нужно,
+             а на экране это была стена из пяти блоков. -->
+        <details class="more">
+          <summary class="more__summary">Другие условия</summary>
+
+          <div class="filters__group">
+            <h2 class="filters__title">Режим работы</h2>
+          <button
+            class="toggle"
+            type="button"
+            role="switch"
+            :aria-checked="onlyNight"
+            @click="patch({ night: onlyNight ? undefined : 'true' })"
+          >
+            <span>Работают круглосуточно</span>
+            <span class="pg-toggle" aria-hidden="true"><i /></span>
+          </button>
+          <button
+            class="toggle"
+            type="button"
+            role="switch"
+            :aria-checked="onlyDelivery"
+            @click="patch({ delivery: onlyDelivery ? undefined : 'true' })"
+          >
+            <span>Привозят на дом</span>
+            <span class="pg-toggle" aria-hidden="true"><i /></span>
+          </button>
+          </div>
+
+          <div class="filters__group">
+            <h2 class="filters__title">Район города</h2>
+            <div class="filters__chips">
+              <button
+                v-for="d in ['Все', ...(data?.districts ?? [])]"
+                :key="d"
+                class="chip chip--onbg"
+                type="button"
+                :aria-pressed="district === d"
+                @click="patch({ district: d === 'Все' ? undefined : d })"
+              >
+                {{ d }}
+              </button>
+            </div>
+          </div>
+
+          <div v-if="stats" class="filters__group">
+            <h2 class="filters__title">Цены в городе</h2>
+            <div class="hist" aria-hidden="true">
+              <div
+                v-for="(bin, i) in histogram"
+                :key="i"
+                class="hist__bar"
+                :style="{ height: bin.height, background: bin.color }"
+              />
+            </div>
+            <div class="hist__scale">
+              <span class="num">{{ stats.min }} сом</span>
+              <b class="num">чаще всего {{ stats.median }}</b>
+              <span class="num">{{ stats.max }} сом</span>
+            </div>
+          </div>
+        </details>
       </aside>
 
       <main class="results">
@@ -431,7 +432,7 @@ useSeoMeta({
 }
 
 .bar__label {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--on-night-dim);
 }
 
@@ -460,7 +461,7 @@ useSeoMeta({
 }
 
 .filters__title {
-  font-size: 13px;
+  font-size: 15px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-muted);
@@ -474,7 +475,7 @@ useSeoMeta({
 }
 
 .chip--sm {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   padding: 7px 12px;
 }
@@ -482,17 +483,87 @@ useSeoMeta({
 .filters__row {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 16px;
   padding: 2px 0;
 }
 
 .filters__note {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.4;
 }
 
 .filters__geo {
   align-self: flex-start;
+}
+
+/* Крупный выбор вместо мелкого переключателя: два понятных варианта
+   с пояснением, что произойдёт. */
+.pick {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pick__btn {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  border: 2px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  padding: 14px 16px;
+  cursor: pointer;
+  color: var(--ink);
+  min-height: var(--tap);
+}
+
+.pick__btn b {
+  font-size: 17px;
+}
+
+.pick__btn span {
+  font-size: 15px;
+  color: var(--ink-muted);
+}
+
+.pick__btn--on {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.pick__btn--on span {
+  color: var(--green-deep);
+}
+
+.more {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+
+.more__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 12px 0;
+  color: var(--blue);
+  list-style: none;
+}
+
+.more__summary::-webkit-details-marker {
+  display: none;
+}
+
+.more__summary::after {
+  content: ' ▾';
+}
+
+.more[open] .more__summary::after {
+  content: ' ▴';
+}
+
+.more .filters__group {
+  margin-top: 14px;
 }
 
 .seg {
@@ -507,7 +578,7 @@ useSeoMeta({
   flex: 1;
   border: 0;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   padding: 8px;
   border-radius: var(--r-pill);
@@ -536,7 +607,7 @@ useSeoMeta({
 .hist__scale {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--ink-muted);
   gap: 6px;
 }
@@ -545,14 +616,31 @@ useSeoMeta({
   color: var(--ink);
 }
 
+/* Вся строка — одна кнопка: попасть по подписи проще, чем по тумблеру. */
 .toggle {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 0;
-  font-size: 14px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  padding: 10px 0;
+  font-size: 17px;
+  font-weight: 500;
   color: var(--ink);
   gap: 12px;
+  min-height: var(--tap);
+}
+
+/* Состояние живёт на строке, а тумблер внутри — только картинка. */
+.toggle[aria-checked='true'] .pg-toggle {
+  background: var(--green);
+}
+
+.toggle[aria-checked='true'] .pg-toggle > i {
+  transform: translateX(24px);
 }
 
 .results {
@@ -592,7 +680,7 @@ useSeoMeta({
 .notice {
   border-radius: var(--r-item);
   padding: 14px 18px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -607,7 +695,7 @@ useSeoMeta({
   gap: 8px;
   flex-wrap: wrap;
   padding: 0 6px 4px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .empty {

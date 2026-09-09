@@ -128,14 +128,14 @@ useSeoMeta({ title: 'Профиль' })
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--ink-muted);
 }
 
 .row small {
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .row textarea {

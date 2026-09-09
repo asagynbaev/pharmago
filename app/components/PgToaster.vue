@@ -89,12 +89,12 @@ const { toasts, dismiss } = useToast()
 }
 
 .toast__title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .toast__text {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--on-night);
 }
 

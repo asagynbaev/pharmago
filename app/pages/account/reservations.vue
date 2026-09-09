@@ -136,7 +136,7 @@ useSeoMeta({ title: 'Мои брони' })
 }
 
 .res__code {
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.06em;
   white-space: nowrap;
 }
@@ -146,7 +146,7 @@ useSeoMeta({ title: 'Мои брони' })
   flex-direction: column;
   gap: 5px;
   min-width: 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .res__title {

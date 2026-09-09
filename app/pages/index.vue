@@ -305,7 +305,7 @@ useSeoMeta({
             <div class="prow__title">
               <b>{{ offer.pharmacy.chain }}</b>
               <span class="tag" :class="`tag--${offer.stock}`">{{ offer.stockLabel }}</span>
-              <span v-if="offer.pharmacy.is24h" class="tag tag--night">24/7</span>
+              <span v-if="offer.pharmacy.is24h" class="tag tag--night">Круглосуточно</span>
             </div>
             <span class="prow__addr">
               {{ offer.pharmacy.address }} · {{ formatDistance(offer.pharmacy.distance) }}
@@ -442,7 +442,7 @@ useSeoMeta({
   border-radius: var(--r-pill);
   background: rgb(255 255 255 / 8%);
   color: var(--blue-soft);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
 }
 
@@ -487,7 +487,7 @@ useSeoMeta({
 }
 
 .hero__popular-label {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--on-night-dim);
 }
 
@@ -511,7 +511,7 @@ useSeoMeta({
 }
 
 .tile p {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.45;
 }
 
@@ -592,7 +592,7 @@ useSeoMeta({
 }
 
 .panel__eyebrow {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -614,7 +614,7 @@ useSeoMeta({
 }
 
 .panel__foot {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--on-night-dim);
 }
 
@@ -631,7 +631,10 @@ useSeoMeta({
 .spread {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 0;
+  min-height: 48px;
   color: var(--ink);
 }
 
@@ -646,7 +649,7 @@ useSeoMeta({
 .spread__row {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .spread__name {
@@ -683,7 +686,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .legend__row {
@@ -720,7 +723,7 @@ useSeoMeta({
 .bar__row {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .bar__label {
@@ -772,12 +775,15 @@ useSeoMeta({
 }
 
 .split__geo-note {
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .split__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .split--map .split__map {
@@ -814,7 +820,7 @@ useSeoMeta({
   padding: 8px 10px 12px;
   gap: 12px;
   flex-wrap: wrap;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .preview__title {
@@ -860,7 +866,7 @@ useSeoMeta({
 }
 
 .prow__addr {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--ink-muted);
 }
 
@@ -870,8 +876,11 @@ useSeoMeta({
 }
 
 .preview__all {
-  padding: 12px 10px 4px;
-  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 12px 10px;
+  font-size: 17px;
   font-weight: 600;
 }
 
@@ -930,7 +939,7 @@ useSeoMeta({
 }
 
 .step__num {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
 }
 
@@ -953,7 +962,7 @@ useSeoMeta({
 }
 
 .step p {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--on-night);
 }

@@ -345,7 +345,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .login__perks li {
@@ -388,7 +388,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--ink-muted);
 }
@@ -411,7 +411,7 @@ useSeoMeta({
   padding: 0;
   cursor: pointer;
   color: var(--blue);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   align-self: flex-start;
 }
@@ -433,7 +433,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.5;
 }
 
@@ -444,7 +444,7 @@ useSeoMeta({
 }
 
 .login__legal {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--ink-muted);
 }
@@ -452,7 +452,7 @@ useSeoMeta({
 .help {
   border-top: 1px solid var(--line);
   padding-top: 12px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .help summary {

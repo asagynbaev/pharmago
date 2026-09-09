@@ -320,7 +320,7 @@ const etaLabel = computed(() =>
   color: #3b5473;
   border-radius: var(--r-sm);
   padding: 12px 14px;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.5;
 }
 
@@ -334,7 +334,7 @@ const etaLabel = computed(() =>
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--ink-muted);
 }
@@ -353,7 +353,7 @@ const etaLabel = computed(() =>
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--ink-muted);
 }
@@ -397,7 +397,7 @@ const etaLabel = computed(() =>
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .sum__row {
@@ -418,7 +418,7 @@ const etaLabel = computed(() =>
 }
 
 .modal__note {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--ink-muted);
 }
@@ -467,7 +467,7 @@ const etaLabel = computed(() =>
   display: flex;
   flex-direction: column;
   gap: 3px;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.45;
 }
 

@@ -290,7 +290,7 @@ useSeoMeta({
   border-radius: var(--r-pill);
   background: rgb(255 255 255 / 8%);
   color: var(--blue-soft);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
 }
 
@@ -318,7 +318,7 @@ useSeoMeta({
 }
 
 .chart__cap {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--on-night-dim);
 }
 
@@ -355,7 +355,7 @@ useSeoMeta({
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--on-night-bright);
 }
 
@@ -379,7 +379,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .stat__num {
@@ -410,7 +410,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 14px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -458,7 +458,7 @@ useSeoMeta({
 }
 
 .plan__name {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -489,7 +489,7 @@ useSeoMeta({
 }
 
 .plan__text {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--ink-muted);
 }
@@ -502,7 +502,7 @@ useSeoMeta({
   margin-top: auto;
   justify-content: center;
   padding: 12px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .plan__btn--accent {
@@ -560,7 +560,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #3e5a4d;
 }

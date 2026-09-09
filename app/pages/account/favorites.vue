@@ -112,7 +112,7 @@ useSeoMeta({ title: 'Избранные аптеки' })
   flex-direction: column;
   gap: 4px;
   min-width: 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .fav__title {

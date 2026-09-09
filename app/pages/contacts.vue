@@ -245,7 +245,7 @@ useSeoMeta({
 }
 
 .channel__label {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -257,7 +257,7 @@ useSeoMeta({
 }
 
 .channel__note {
-  font-size: 14px;
+  font-size: 16px;
   margin-top: auto;
 }
 
@@ -408,7 +408,7 @@ useSeoMeta({
 
 .legal {
   gap: 10px;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--ink-muted);
   line-height: 1.5;
   padding: 24px 32px;

@@ -182,7 +182,7 @@ defineExpose({ focus: () => input.value?.focus() })
         >
           <span class="sb__name">
             {{ item.name }}
-            <span v-if="item.prescription" class="tag tag--rx">Rx</span>
+            <span v-if="item.prescription" class="tag tag--rx">По рецепту</span>
           </span>
           <span class="sb__meta">{{ item.substance }}</span>
         </li>
@@ -246,7 +246,7 @@ defineExpose({ focus: () => input.value?.focus() })
 
 .sb--compact .sb__submit {
   padding: 11px 20px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .sb__list {
@@ -288,13 +288,13 @@ defineExpose({ focus: () => input.value?.focus() })
 }
 
 .sb__meta {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--ink-muted);
 }
 
 .sb__loading {
   padding: 16px;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--ink-muted);
   display: flex;
   flex-direction: column;
@@ -320,7 +320,7 @@ defineExpose({ focus: () => input.value?.focus() })
 
   .sb__submit {
     padding: 12px 18px;
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 </style>

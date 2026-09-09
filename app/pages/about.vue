@@ -208,7 +208,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .coverage__row {
@@ -279,7 +279,7 @@ useSeoMeta({
 }
 
 .milestone__date {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--on-night-dim);
 }
 
@@ -289,7 +289,7 @@ useSeoMeta({
 }
 
 .milestone__text {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--on-night);
 }
@@ -327,7 +327,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .press__card b {
