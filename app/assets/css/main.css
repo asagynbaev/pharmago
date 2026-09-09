@@ -1,0 +1,511 @@
+/* ============================================================
+   PharmaGO — дизайн-система
+   Токены перенесены один в один из макетов (design/*.dc.html).
+   ============================================================ */
+
+:root {
+  /* Бренд */
+  --green: #12a66b;
+  --green-dark: #0e8f5b;
+  --green-deep: #0b7a4e;
+  --green-soft: #ddf3e9;
+
+  --blue: #0a7aff;
+  --blue-dark: #0066e0;
+  --blue-deep: #0a5bc0;
+  --blue-soft: #cfe2fb;
+  --blue-light: #7fb8ff;
+
+  --amber: #f0b429;
+  --amber-deep: #8a5a00;
+  --amber-soft: #fff1c9;
+
+  --pink: #e0567f;
+  --pink-deep: #9b2b55;
+  --pink-soft: #f7d9e3;
+
+  /* Нейтральные */
+  --ink: #0f1d17;
+  --ink-muted: #5a6b63;
+  --ink-soft: #3e4c46;
+  --night: #0b1c2e;
+  --night-2: #0f2540;
+  --surface: #fff;
+  --bg: #f3f5f7;
+  --bg-2: #e9edf1;
+  --line: #e3e8ec;
+
+  /* На тёмном фоне */
+  --on-night: #b4c3d1;
+  --on-night-dim: #8fa3b5;
+  --on-night-bright: #c9d6e2;
+
+  /* Геометрия */
+  --r-section: 28px;
+  --r-card: 22px;
+  --r-card-lg: 24px;
+  --r-item: 18px;
+  --r-sm: 14px;
+  --r-pill: 999px;
+
+  --gap: 14px;
+  --page-max: 1280px;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 5%);
+  --shadow-md: 0 6px 20px rgb(0 0 0 / 6%);
+  --shadow-lg: 0 12px 40px rgb(0 0 0 / 12%);
+  --shadow-xl: 0 20px 60px rgb(0 0 0 / 25%);
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Onest, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+  transition: color 0.15s var(--ease);
+}
+
+a:hover {
+  color: #0059c9;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* --- Каркас страницы ------------------------------------- */
+
+.page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 12px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* Корень страницы: <Transition> анимирует только один узел,
+   поэтому каждая страница обёрнута в этот блок. Раскладку колонки
+   с отступами он берёт на себя. */
+.page-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.section {
+  border-radius: var(--r-section);
+  padding: clamp(28px, 4vw, 48px);
+}
+
+.section--night {
+  background: var(--night);
+  color: #fff;
+}
+
+.section--white {
+  background: var(--surface);
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  padding: 26px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-auto {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+}
+
+/* --- Типографика ------------------------------------------ */
+
+.h-hero {
+  font-size: clamp(38px, 5.2vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.h-section {
+  font-size: clamp(28px, 3.4vw, 44px);
+}
+
+.h-block {
+  font-size: clamp(22px, 2.4vw, 28px);
+  letter-spacing: -0.025em;
+}
+
+.lead {
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.55;
+  color: var(--ink-muted);
+}
+
+.muted {
+  color: var(--ink-muted);
+}
+
+.eyebrow {
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid currentcolor;
+  border-radius: 6px;
+  padding: 5px 9px;
+  line-height: 1;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+/* --- Кнопки ------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 13px 22px;
+  border-radius: var(--r-pill);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  transition:
+    background 0.15s var(--ease),
+    transform 0.15s var(--ease),
+    box-shadow 0.15s var(--ease);
+}
+
+.btn:hover {
+  background: var(--bg-2);
+  color: var(--ink);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+}
+
+.btn--primary:hover {
+  background: var(--green-dark);
+  color: #fff;
+}
+
+.btn--blue {
+  background: var(--blue);
+  color: #fff;
+}
+
+.btn--blue:hover {
+  background: var(--blue-dark);
+  color: #fff;
+}
+
+.btn--dark {
+  background: var(--night);
+  color: #fff;
+}
+
+.btn--dark:hover {
+  background: var(--night-2);
+  color: #fff;
+}
+
+.btn--ghost-light {
+  background: rgb(255 255 255 / 10%);
+  color: #fff;
+}
+
+.btn--ghost-light:hover {
+  background: rgb(255 255 255 / 18%);
+  color: #fff;
+}
+
+.btn--sm {
+  font-size: 13px;
+  padding: 9px 15px;
+}
+
+/* Переключатели-«таблетки» */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 9px 15px;
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: center;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+
+.chip:hover {
+  background: var(--bg-2);
+}
+
+.chip:active {
+  transform: scale(0.97);
+}
+
+.chip[aria-pressed='true'],
+.chip--active {
+  background: var(--ink);
+  color: #fff;
+}
+
+.chip--onbg {
+  background: var(--bg);
+}
+
+.chip--onbg:hover {
+  background: var(--bg-2);
+}
+
+.chip--onnight {
+  border: 1px solid rgb(255 255 255 / 18%);
+  background: transparent;
+  color: #e4ecf4;
+  font-weight: 500;
+}
+
+.chip--onnight:hover {
+  background: rgb(255 255 255 / 10%);
+}
+
+.chip--onnight[aria-pressed='true'] {
+  background: #fff;
+  color: var(--night);
+  font-weight: 700;
+}
+
+/* --- Метки статуса ---------------------------------------- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.tag--in {
+  background: var(--green-soft);
+  color: var(--green-deep);
+}
+
+.tag--low {
+  background: var(--amber-soft);
+  color: var(--amber-deep);
+}
+
+.tag--out {
+  background: var(--bg);
+  color: var(--ink-muted);
+}
+
+.tag--night {
+  background: var(--blue-soft);
+  color: var(--blue-deep);
+}
+
+.tag--rx {
+  background: var(--pink-soft);
+  color: var(--pink-deep);
+}
+
+/* --- Поля ввода -------------------------------------------- */
+
+.field {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 15px;
+  outline: 0;
+  background: #f9fafb;
+  width: 100%;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.field:focus {
+  border-color: var(--blue);
+  background: #fff;
+}
+
+.field--error {
+  border-color: var(--pink-deep);
+}
+
+.field-error {
+  font-size: 13px;
+  color: var(--pink-deep);
+}
+
+/* --- Служебное --------------------------------------------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 200;
+  background: var(--night);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: top 0.2s var(--ease);
+}
+
+.skip-link:focus {
+  top: 12px;
+  color: #fff;
+}
+
+.dotted-map {
+  background: #eaf2fb;
+  background-image: radial-gradient(#c4d7ec 1.4px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+
+/* Переход между страницами */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* Скелетоны загрузки */
+@keyframes shimmer {
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton {
+  border-radius: var(--r-item);
+  background: linear-gradient(90deg, #eef1f4 25%, #f6f8fa 37%, #eef1f4 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.3s linear infinite;
+}

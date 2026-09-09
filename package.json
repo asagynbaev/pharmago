@@ -1,0 +1,28 @@
+{
+  "name": "pharmago",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@vueuse/nuxt": "^14.4.0",
+    "nuxt": "^4.5.2",
+    "vue": "^3.5.42",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.66.2",
+    "@types/node": "^26.5.0",
+    "typescript": "^5.9.2",
+    "vue-tsc": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}

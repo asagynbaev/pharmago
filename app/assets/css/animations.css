@@ -1,0 +1,391 @@
+/* ============================================================
+   PharmaGO — фирменные анимации.
+   Кейфреймы и утилитарные классы. Палитра берётся из main.css.
+   ============================================================ */
+
+@keyframes pgPulse {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pgTrail {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+
+@keyframes pgFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pgFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pgPop {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  70% {
+    transform: scale(1.25);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pgSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+@keyframes pgSpinDots {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
+
+@keyframes pgBarFill {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes pgShake {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  25% {
+    transform: translateX(-6px);
+  }
+
+  75% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes pgBurst {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--dx), var(--dy)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes pgDrift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: translate(var(--dx), var(--dy));
+    opacity: 0.2;
+  }
+}
+
+@keyframes pgFlicker {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+
+  10% {
+    opacity: 0.6;
+  }
+
+  20% {
+    opacity: 0.15;
+  }
+
+  60% {
+    opacity: 0.4;
+  }
+
+  70% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes pgDrain {
+  0% {
+    opacity: 1;
+  }
+
+  60%,
+  100% {
+    opacity: 0.12;
+  }
+}
+
+@keyframes pgShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@keyframes pgBreathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes pgBounceDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* --- Появление ------------------------------------------- */
+
+.pg-fade-up {
+  animation: pgFadeUp 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+.pg-fade {
+  animation: pgFade 0.4s both;
+}
+
+.pg-pop {
+  animation: pgPop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
+/* Дети появляются каскадом с шагом 80 мс. */
+.pg-stagger > * {
+  animation: pgFadeUp 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+.pg-stagger > *:nth-child(1) { animation-delay: 0s; }
+.pg-stagger > *:nth-child(2) { animation-delay: 0.08s; }
+.pg-stagger > *:nth-child(3) { animation-delay: 0.16s; }
+.pg-stagger > *:nth-child(4) { animation-delay: 0.24s; }
+.pg-stagger > *:nth-child(5) { animation-delay: 0.32s; }
+.pg-stagger > *:nth-child(6) { animation-delay: 0.4s; }
+.pg-stagger > *:nth-child(7) { animation-delay: 0.48s; }
+.pg-stagger > *:nth-child(8) { animation-delay: 0.56s; }
+.pg-stagger > *:nth-child(n + 9) { animation-delay: 0.64s; }
+
+/* --- Обратная связь --------------------------------------- */
+
+.pg-shake {
+  animation: pgShake 0.45s ease-in-out both;
+}
+
+.pg-press {
+  transition: transform 0.12s var(--ease);
+}
+
+.pg-press:active {
+  transform: scale(0.97);
+}
+
+.pg-bounce-down {
+  animation: pgBounceDown 1s ease-in-out infinite;
+}
+
+/* --- Три квадрата в кнопках -------------------------------- */
+
+.pg-dots {
+  display: inline-flex;
+  gap: 4px;
+  vertical-align: middle;
+}
+
+.pg-dots > span {
+  width: 8px;
+  height: 8px;
+  background: currentcolor;
+  animation: pgSpinDots 1.2s ease-in-out infinite;
+}
+
+.pg-dots > span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.pg-dots > span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* --- Полоса прогресса -------------------------------------- */
+
+.pg-progress {
+  height: 4px;
+  background: var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.pg-progress > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  animation: pgBarFill 4s ease-out infinite;
+}
+
+/* --- Скелетоны --------------------------------------------- */
+
+.pg-shimmer {
+  background: linear-gradient(90deg, #e9edf1 25%, #f6f8fa 50%, #e9edf1 75%);
+  background-size: 400% 100%;
+  animation: pgShimmer 1.4s linear infinite;
+  border-radius: 6px;
+}
+
+.pg-shimmer--dark {
+  background: linear-gradient(
+    90deg,
+    rgb(255 255 255 / 10%) 25%,
+    rgb(255 255 255 / 20%) 50%,
+    rgb(255 255 255 / 10%) 75%
+  );
+  background-size: 400% 100%;
+}
+
+.pg-skeleton-card {
+  background: var(--surface);
+  border: 1px solid #eef1f4;
+  border-radius: var(--r-item);
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 12px;
+  align-items: center;
+}
+
+/* --- Осколки из центра -------------------------------------- */
+
+.pg-burst {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pg-burst > i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  animation: pgBurst 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) both;
+  opacity: 0;
+}
+
+/* --- Переключатель ------------------------------------------ */
+
+.pg-toggle {
+  width: 52px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--r-pill);
+  padding: 3px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  background: #d5dbe0;
+  transition: background 0.25s var(--ease);
+  flex: none;
+}
+
+.pg-toggle > i {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+  transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.pg-toggle[aria-checked='true'] {
+  background: var(--green);
+}
+
+.pg-toggle[aria-checked='true'] > i {
+  transform: translateX(20px);
+}
+
+/* Компактный вариант для боковой панели фильтров. */
+.pg-toggle--sm {
+  width: 40px;
+  height: 24px;
+  padding: 3px;
+}
+
+.pg-toggle--sm > i {
+  width: 18px;
+  height: 18px;
+}
+
+.pg-toggle--sm[aria-checked='true'] > i {
+  transform: translateX(16px);
+}
