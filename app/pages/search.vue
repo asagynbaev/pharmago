@@ -586,6 +586,7 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 10px;
+  min-width: 0;
 }
 
 .notice {

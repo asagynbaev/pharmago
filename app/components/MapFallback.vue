@@ -66,12 +66,18 @@ const userPos = computed(() =>
 
 const root = useTemplateRef<HTMLElement>('root')
 
+interface Box { left: number, right: number, top: number, bottom: number }
+
+const overlaps = (a: Box, b: Box) =>
+  a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+
 /**
- * Аптеки в центре города стоят вплотную, и подписи налезают друг на друга.
+ * Аптеки в центре города стоят вплотную, и подписи налезают друг на друга,
+ * на чужие маркеры и на плашку с пояснением, а у края ещё и обрезаются.
  *
- * Прячем те, что перекрывают уже размещённые. Прямоугольники меряем прямо
- * в DOM, а не оцениваем по длине строки: скрытые подписи остаются в потоке
- * (гасим только opacity), поэтому измерения стабильны от прохода к проходу.
+ * Прячем всё, что не помещается. Прямоугольники меряем прямо в DOM, а не
+ * оцениваем по длине строки: скрытые подписи остаются в потоке (гасим
+ * только opacity), поэтому измерения стабильны от прохода к проходу.
  */
 const quiet = ref(new Set<string>())
 
@@ -91,20 +97,33 @@ function relayoutLabels() {
     return (byId.get(ida)?.distance ?? 0) - (byId.get(idb)?.distance ?? 0)
   })
 
-  const placed: DOMRect[] = []
+  const bounds = host.getBoundingClientRect()
+
+  // Квадраты маркеров и плашка-пояснение — препятствия наравне с подписями.
+  const obstacles: { owner: string | null, box: Box }[] = []
+  for (const pin of pins) {
+    const dot = pin.querySelector<HTMLElement>('.fb__dot')
+    if (dot) obstacles.push({ owner: pin.dataset.pin!, box: dot.getBoundingClientRect() })
+  }
+  const note = host.querySelector<HTMLElement>('.fb__note')
+  if (note) obstacles.push({ owner: null, box: note.getBoundingClientRect() })
+
+  const placed: Box[] = []
   const hidden = new Set<string>()
 
   for (const pin of ordered) {
     const label = pin.querySelector<HTMLElement>('.fb__label')
     if (!label) continue
 
+    const id = pin.dataset.pin!
     const rect = label.getBoundingClientRect()
-    const collides = placed.some(
-      r => rect.left < r.right && rect.right > r.left
-        && rect.top < r.bottom && rect.bottom > r.top,
-    )
 
-    if (collides) hidden.add(pin.dataset.pin!)
+    // Подпись, вылезающая за край карты, обрезалась бы — прячем сразу.
+    const outside = rect.left < bounds.left + 2 || rect.right > bounds.right - 2
+    const hitsLabel = placed.some(r => overlaps(rect, r))
+    const hitsMarker = obstacles.some(o => o.owner !== id && overlaps(rect, o.box))
+
+    if (outside || hitsLabel || hitsMarker) hidden.add(id)
     else placed.push(rect)
   }
 
@@ -174,6 +193,17 @@ useResizeObserver(root, schedule)
   padding: 5px 9px;
   box-shadow: var(--shadow-sm);
   max-width: calc(100% - 28px);
+}
+
+@media (width <= 560px) {
+  .fb__note {
+    /* На телефоне длинная плашка занимала бы треть карты. */
+    font-size: 11px;
+    padding: 4px 8px;
+    max-width: calc(100% - 20px);
+    left: 10px;
+    top: 10px;
+  }
 }
 
 .fb__pin {

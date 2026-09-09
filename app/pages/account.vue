@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ middleware: 'auth' })
 
-const { user, displayName, logout } = useAuth()
+const { user, displayName, avatarChar, hasName, logout } = useAuth()
 
 const sections = [
   { to: '/account', label: 'Обзор', exact: true },
@@ -22,12 +22,14 @@ useSeoMeta({ robots: 'noindex' })
   <div class="page-body">
     <section class="head">
       <div class="head__who">
-        <span class="head__avatar" aria-hidden="true">
-          {{ (displayName[0] ?? 'П').toUpperCase() }}
-        </span>
+        <span class="head__avatar" aria-hidden="true">{{ avatarChar }}</span>
         <div>
           <h1 class="head__name">{{ displayName }}</h1>
-          <span class="muted">{{ user?.phone }}</span>
+          <!-- Без имени в заголовке уже стоит номер — второй раз не повторяем. -->
+          <span v-if="hasName" class="muted">{{ user?.phone }}</span>
+          <NuxtLink v-else to="/account/profile" class="head__hint">
+            Добавить имя в профиле
+          </NuxtLink>
         </div>
       </div>
       <button class="btn btn--sm" type="button" @click="logout">Выйти</button>
@@ -83,7 +85,13 @@ useSeoMeta({ robots: 'noindex' })
 }
 
 .head__name {
-  font-size: clamp(24px, 3vw, 34px);
+  font-size: clamp(22px, 3vw, 34px);
+  overflow-wrap: anywhere;
+}
+
+.head__hint {
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .layout {

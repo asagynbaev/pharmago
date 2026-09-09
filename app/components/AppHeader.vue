@@ -12,7 +12,7 @@ const nav = [
 const route = useRoute()
 const open = ref(false)
 
-const { isAuthenticated, displayName } = useAuth()
+const { isAuthenticated, avatarChar } = useAuth()
 
 // Меню не должно пережить переход на другую страницу.
 watch(() => route.fullPath, () => { open.value = false })
@@ -55,9 +55,7 @@ const isActive = (to: string) =>
         to="/account"
         class="btn btn--sm hdr__account hdr__account--user"
       >
-        <span class="hdr__avatar" aria-hidden="true">
-          {{ (displayName[0] ?? 'П').toUpperCase() }}
-        </span>
+        <span class="hdr__avatar" aria-hidden="true">{{ avatarChar }}</span>
         Кабинет
       </NuxtLink>
       <NuxtLink v-else to="/login" class="btn btn--sm hdr__account">Войти</NuxtLink>

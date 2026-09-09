@@ -73,6 +73,9 @@ const STATUS_COLOR: Record<string, string> = {
   closed: '#B0BAC4',
 }
 
+/** На столько подпись поднята над квадратом маркера. */
+const LABEL_OFFSET = 14
+
 /** Квадратный маркер в стиле знака — SVG прямо в data-URI. */
 function squareIcon(color: string, size: number): google.maps.Icon {
   const svg
@@ -84,7 +87,7 @@ function squareIcon(color: string, size: number): google.maps.Icon {
     scaledSize: new google.maps.Size(size, size),
     anchor: new google.maps.Point(size / 2, size / 2),
     // Подпись висит над квадратом.
-    labelOrigin: new google.maps.Point(size / 2, -10),
+    labelOrigin: new google.maps.Point(size / 2, -LABEL_OFFSET),
   }
 }
 
@@ -233,6 +236,22 @@ function syncUserMarker() {
  * Меряем реальные прямоугольники в DOM и гасим те, что перекрывают уже
  * размещённые. Выбранная аптека подписана всегда.
  */
+interface Box { left: number, right: number, top: number, bottom: number }
+
+const overlaps = (a: Box, b: Box) =>
+  a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+
+/**
+ * Квадрат маркера лежит в отдельном контейнере Google, добраться до него
+ * из подписи нельзя. Зато его положение однозначно выводится из подписи:
+ * labelOrigin поднимает её ровно на LABEL_OFFSET над верхом иконки.
+ */
+function iconBoxFrom(labelRect: DOMRect, size: number): Box {
+  const cx = labelRect.left + labelRect.width / 2
+  const top = labelRect.top + labelRect.height / 2 + LABEL_OFFSET
+  return { left: cx - size / 2, right: cx + size / 2, top, bottom: top + size }
+}
+
 function relayoutLabels() {
   const container = host.value
   if (!container) return
@@ -243,23 +262,34 @@ function relayoutLabels() {
     return a.distance - b.distance
   })
 
-  const placed: DOMRect[] = []
+  // Сначала собираем прямоугольники всех подписей и их квадратов: скрытые
+  // подписи остаются в потоке, поэтому меряются наравне с видимыми.
+  const measured = new Map<string, { el: HTMLElement, label: DOMRect, icon: Box }>()
 
   for (const pharmacy of ordered) {
     const el = container.querySelector<HTMLElement>(`.gpin-label--${pharmacy.id}`)
     if (!el) continue
-
-    // Сначала показываем, иначе прямоугольник посчитается от скрытого узла.
     el.classList.remove('is-quiet')
-    const rect = el.getBoundingClientRect()
+    const label = el.getBoundingClientRect()
+    const size = pharmacy.id === props.selectedId ? 18 : 14
+    measured.set(pharmacy.id, { el, label, icon: iconBoxFrom(label, size) })
+  }
 
-    const collides = placed.some(
-      r => rect.left < r.right && rect.right > r.left
-        && rect.top < r.bottom && rect.bottom > r.top,
-    )
+  // Подпись не должна накрывать чужой маркер — квадраты тоже препятствия.
+  const obstacles: Box[] = [...measured.values()].map(m => m.icon)
+  const placed: Box[] = []
 
-    if (collides) el.classList.add('is-quiet')
-    else placed.push(rect)
+  for (const pharmacy of ordered) {
+    const item = measured.get(pharmacy.id)
+    if (!item) continue
+
+    const own = item.icon
+    const hit
+      = placed.some(r => overlaps(item.label, r))
+        || obstacles.some(r => r !== own && overlaps(item.label, r))
+
+    if (hit) item.el.classList.add('is-quiet')
+    else placed.push(item.label)
   }
 }
 
@@ -330,7 +360,7 @@ const fallbackNote = computed(() => {
 </script>
 
 <template>
-  <div class="pmap" :style="{ minHeight }">
+  <div class="pmap" :style="{ '--pmap-min-h': minHeight }">
     <template v-if="showFallback">
       <MapFallback
         :pharmacies="pharmacies"
@@ -372,9 +402,18 @@ const fallbackNote = computed(() => {
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: var(--pmap-min-h, 640px);
   border-radius: var(--r-card-lg);
   overflow: hidden;
   background: #eaf2fb;
+}
+
+/* На узком экране высокая карта даёт много пустоты сверху и снизу:
+   аптеки Бишкека вытянуты по горизонтали. Ограничиваем рост. */
+@media (width <= 900px) {
+  .pmap {
+    min-height: min(var(--pmap-min-h, 640px), 380px);
+  }
 }
 
 .pmap__canvas {

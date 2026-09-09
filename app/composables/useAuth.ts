@@ -97,10 +97,18 @@ export function useAuth() {
     await navigateTo('/')
   }
 
+  const hasName = computed(() => Boolean(user.value?.name?.trim()))
+
   /** Имя для приветствия: имя, а если его нет — номер. */
   const displayName = computed(() => {
     if (!user.value) return ''
     return user.value.name || user.value.phone
+  })
+
+  /** Буква для аватара. У номера первый символ «+», поэтому берём точку. */
+  const avatarChar = computed(() => {
+    const name = user.value?.name?.trim()
+    return name ? name[0]!.toUpperCase() : '•'
   })
 
   return {
@@ -108,6 +116,8 @@ export function useAuth() {
     ready,
     isAuthenticated,
     displayName,
+    hasName,
+    avatarChar,
     whatsappConfigured,
     fetchUser,
     requestCode,

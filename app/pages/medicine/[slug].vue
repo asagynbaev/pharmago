@@ -502,6 +502,7 @@ useHead({
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 .buy__list :deep(.offer) {

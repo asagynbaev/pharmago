@@ -617,12 +617,12 @@ useSeoMeta({
   .mapwrap {
     position: relative;
     top: auto;
-    min-height: 420px;
+    min-height: 380px;
     order: 1;
   }
 
   .mapwrap__skeleton {
-    height: 420px;
+    height: 380px;
   }
 
   .detail {

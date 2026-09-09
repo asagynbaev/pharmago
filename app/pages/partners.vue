@@ -331,6 +331,7 @@ useSeoMeta({
 
 .chart__col {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -352,8 +353,22 @@ useSeoMeta({
 .chart__foot {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
   font-size: 13px;
   color: var(--on-night-bright);
+}
+
+/* На узких экранах двенадцать подписей месяцев не дают колонкам сжаться,
+   а период всё равно написан под графиком. */
+@media (width <= 420px) {
+  .chart__month {
+    display: none;
+  }
+
+  .chart__bars {
+    gap: 4px;
+  }
 }
 
 .chart__foot b {

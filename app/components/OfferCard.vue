@@ -110,6 +110,7 @@ const mapsLink = computed(() => {
 .offer {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  min-width: 0;
   gap: 10px 20px;
   align-items: center;
   background: var(--surface);
@@ -201,23 +202,34 @@ const mapsLink = computed(() => {
 .offer__actions {
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
-@media (width <= 620px) {
+/* «Маршрут + Доставка + Забронировать» и цена в одну строку не влезают
+   уже на планшете, поэтому раскладываем их в столбец пораньше. */
+@media (width <= 720px) {
   .offer {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     padding: 16px 18px;
   }
 
   .offer__side {
+    flex-direction: column;
     align-items: stretch;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    gap: 12px;
   }
 
+  /* Цена и переплата — одной строкой по краям карточки. */
   .offer__price {
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  /* Кнопки делят ширину поровну и переносятся, если не помещаются. */
+  .offer__actions .btn {
+    flex: 1 1 auto;
   }
 }
 </style>
